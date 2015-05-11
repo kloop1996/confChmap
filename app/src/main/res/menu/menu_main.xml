@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/action_favourite"
+        android:icon="@drawable/abc_ratingbar_full_material"
+        android:title="lal"
+        />
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+         />
+</menu>
