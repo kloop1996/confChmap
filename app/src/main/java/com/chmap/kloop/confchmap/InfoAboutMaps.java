@@ -23,14 +23,22 @@ public class InfoAboutMaps {
 	private String DB_NAME="infmap.sqlite3";
 	
 	
-	InfoAboutMaps()
+	public InfoAboutMaps()
 	{
 		mInfPointersAboutMaps=new Vector<PointersOfMap>();
 		mSelectedPointersAboutMaps=new Vector<PointersOfMap>();
 		mSelectIdOfLocale=-1;
 		mYearOfSelectLocale=-1;
 		mAllColoursOfCurrentPosition=new Vector <InfAboutPixel>();
+		mNameOfSelectLocale="Гомельская";
 	}
+
+	public InfoAboutMaps(double lat,double lon)
+	{
+		this();
+	}
+
+
 	
 	public void InitPosition(Context context,double y,double x)
 	{
@@ -182,5 +190,9 @@ public class InfoAboutMaps {
 	public String getSelectLocaleName()
 	{
 		return mNameOfSelectLocale;
+	}
+	public int getSelectNubmerLocaleName()
+	{
+		return 3;
 	}
 }

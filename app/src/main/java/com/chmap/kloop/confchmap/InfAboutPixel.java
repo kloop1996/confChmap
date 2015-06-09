@@ -6,7 +6,7 @@ public class InfAboutPixel {
 	int year;
 	int colour;
 	
-	InfAboutPixel()
+	public InfAboutPixel()
 	{
 		year=-1;
 		colour=-1;

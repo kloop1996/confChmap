@@ -3,33 +3,27 @@ package com.chmap.kloop.confchmap;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.chmap.kloop.confchmap.R;
-import com.chmap.kloop.confchmap.database.ExternalDbOpenHelper;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
 import java.util.Vector;
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity {
 
     ActionBar actionBar;
     HashMap<String,Fragment> fragmentHashMap;
     public static Activity activity;
-
+    public static FragmentManager fragmentManager;
     public static Activity getInstance(){return  activity;}
 
     @Override
@@ -49,6 +43,7 @@ public class MainActivity extends Activity{
 
         tx.replace(android.R.id.content, (Fragment) fragmentHashMap.get("gps"));
         tx.commit();
+        fragmentManager=getFragmentManager();
     }
 
     @Override
@@ -85,7 +80,7 @@ public class MainActivity extends Activity{
 
     private void initFragments(){
         fragmentHashMap.put("gps",Fragment.instantiate(this, FragmentGpsSearch.class.getName()));
-        fragmentHashMap.put("admin",Fragment.instantiate(this, FragmentAdminSearch.class.getName()));
+        fragmentHashMap.put("admin", Fragment.instantiate(this, FragmentGoogleMaps.class.getName()));
     }
 
 

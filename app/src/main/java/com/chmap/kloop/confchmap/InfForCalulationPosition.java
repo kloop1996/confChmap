@@ -7,7 +7,7 @@ public class InfForCalulationPosition {
 	double dividerByLong;
 	
 	Cordinate PointerCount;
-	InfForCalulationPosition()
+	public InfForCalulationPosition()
 	{
 		PointerCount=new Cordinate();
 		dividerByLat=-1;

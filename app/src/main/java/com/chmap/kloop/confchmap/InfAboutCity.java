@@ -3,7 +3,7 @@ package com.chmap.kloop.confchmap;
 public class InfAboutCity {
 	double distance;
 	String name;
-	InfAboutCity(){
+	public InfAboutCity(){
 		distance=-1;
 		name=new String();
 	}

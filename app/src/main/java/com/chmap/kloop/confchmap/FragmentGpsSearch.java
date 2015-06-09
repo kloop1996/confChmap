@@ -90,7 +90,7 @@ public class FragmentGpsSearch extends Fragment implements View.OnClickListener{
         }
     }
 
-    class BackgroundDefinePolution extends AsyncTask<Void, Void, Void> {
+   public class BackgroundDefinePolution extends AsyncTask<Void, Void, Void> {
         String outputs;
         InfoAboutMaps CurrentInfProviderMap;
         private ExternalDbOpenHelper dbOpenHelper;
@@ -100,14 +100,9 @@ public class FragmentGpsSearch extends Fragment implements View.OnClickListener{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // pd = new ProgressDialog(MainActivity.getInstance());
-            // pd.setTitle("Получени данных");
-            //pd.setMessage("Ожидание");
             outputs=new String();
             result=new HashMap<String,String>();
             inf=new ArrayList<String>();
-            // mWaite.setVisibility(View.VISIBLE);
-            //mBar.setVisibility(View.VISIBLE);
 
         }
 
@@ -115,7 +110,6 @@ public class FragmentGpsSearch extends Fragment implements View.OnClickListener{
         protected Void doInBackground(Void... params) {
 
             CurrentInfProviderMap=new InfoAboutMaps();
-            //ProviderMap CurrentMap=new ProviderMap(Double.parseDouble(MainActivity.getInstance().mInpLatitude.getText().toString()),Double.parseDouble(MainActivity.getInstance().mInpLongtude.getText().toString()));
 
             double lat,longs;
             lat=Double.parseDouble(edtLat.getText().toString());
@@ -228,7 +222,6 @@ public class FragmentGpsSearch extends Fragment implements View.OnClickListener{
                 }
             }
 
-            //Dialog dlg=MainActivity.getInstance().onCreateDialog(output,CurrentInfProviderMap.Inps);
             outputs+="\nБлижайшие нас. пункты:\n";
 
 
