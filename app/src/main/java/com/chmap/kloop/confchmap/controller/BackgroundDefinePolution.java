@@ -24,7 +24,7 @@ import java.util.Collections;
  */
 public class BackgroundDefinePolution extends AsyncTask<Coordinate, Void, Void> {
 
-
+    private static ArrayList<City> nearCity;
     private static ArrayList<Polution> polutions;
     private static Coordinate currentPosition;
     private boolean error = false;
