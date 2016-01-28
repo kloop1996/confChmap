@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/MainActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/controller/BackgroundDefinePolution.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/controller/ControllerException.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/IBaseDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/IMapDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/database/DataBaseRepository.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/database/ExternalDbProvider.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/database/cache/CacheInfmapDatabase.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/database/cache/CacheInfoRecommendation.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/exception/DaoException.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/factory/DaoFactory.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/factory/FileDaoFactory.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/entity/City.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/entity/Coordinate.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/entity/NodeTableLocale.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/entity/NodeTableMaps.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/entity/Polution.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/entity/PolutionLevel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/entity/PolutionTypeName.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/comparator/SortCityByDistance.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/exception/ServiceException.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/impl/CoordinateService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/impl/MapProviderService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/impl/PolutionService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/impl/RecommendationService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/FragmentAdminSearch.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/FragmentDatabaseSearch.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/FragmentGoogleMaps.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/dialog/DialogShowResult.java" charset="UTF-8" />
+  </component>
+</project>
