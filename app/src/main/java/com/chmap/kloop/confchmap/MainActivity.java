@@ -8,15 +8,25 @@ import android.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
+import com.chmap.kloop.confchmap.view.FragmentDatabaseSearch;
+import com.chmap.kloop.confchmap.view.FragmentGoogleMaps;
+import com.chmap.kloop.confchmap.entity.City;
+import com.chmap.kloop.confchmap.entity.Coordinate;
+import com.chmap.kloop.confchmap.entity.Polution;
+import com.chmap.kloop.confchmap.service.comparator.SortCityByDistance;
+import com.chmap.kloop.confchmap.service.exception.ServiceException;
+import com.chmap.kloop.confchmap.service.impl.CoordinateService;
+import com.chmap.kloop.confchmap.service.impl.PolutionService;
+import com.chmap.kloop.confchmap.view.FragmentGpsSearch;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class MainActivity extends Activity {
 
@@ -29,14 +39,13 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_main);
 
         actionBar = getActionBar();
         fragmentHashMap=new HashMap<String,Fragment>();
-        activity=getInstance();
+        activity=this;
 
         initFragments();
-
+        ArrayList<City> cities =new ArrayList<City>();
 
         FragmentTransaction tx = getFragmentManager()
                 .beginTransaction();
@@ -72,6 +81,13 @@ public class MainActivity extends Activity {
                     tx.replace(android.R.id.content, (Fragment) fragmentHashMap.get("admin"));
                     tx.commit();
                     break;
+                case R.id.menu_help:
+                    tx = getFragmentManager()
+                            .beginTransaction();
+
+                    tx.replace(android.R.id.content, (Fragment) fragmentHashMap.get("database"));
+                    tx.commit();
+                    break;
             }
             return false;
 
@@ -81,8 +97,14 @@ public class MainActivity extends Activity {
     private void initFragments(){
         fragmentHashMap.put("gps",Fragment.instantiate(this, FragmentGpsSearch.class.getName()));
         fragmentHashMap.put("admin", Fragment.instantiate(this, FragmentGoogleMaps.class.getName()));
+        fragmentHashMap.put("database",Fragment.instantiate(this, FragmentDatabaseSearch.class.getName()));
     }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 
 }
