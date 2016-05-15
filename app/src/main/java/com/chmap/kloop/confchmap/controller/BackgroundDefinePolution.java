@@ -2,6 +2,7 @@ package com.chmap.kloop.confchmap.controller;
 
 import android.app.FragmentManager;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.chmap.kloop.confchmap.entity.City;
@@ -44,10 +45,18 @@ public class BackgroundDefinePolution extends AsyncTask<Coordinate, Void, Void> 
         polutions=null;
         currentPosition=params[0];
         try {
+            long currentTime = System.currentTimeMillis();
+
             polutions = PolutionService.getAllPolutionByCordinate(params[0]);
             Collections.sort(polutions,new SortPolutionByYear());
 
+            Log.d("Polutiong",String.valueOf(currentTime - System.currentTimeMillis()));
+
+            currentTime = System.currentTimeMillis();
             nearCity = CoordinateService.getNearCities(params[0]);
+
+            Log.d("NearCity",String.valueOf(currentTime - System.currentTimeMillis()));
+
             Collections.sort(nearCity, new SortCityByDistance());
         } catch (ServiceException e) {
             error=true;

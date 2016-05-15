@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_search_base"
+            android:icon="@drawable/ic_menu_dark"
+            android:title="@string/drawer_item_search_base_title" />
+        <item
+            android:id="@+id/nav_search_gps"
+            android:icon="@drawable/ic_crosshairs_gps"
+            android:title="@string/drawer_item_search_gps_title" />
+        <item
+            android:id="@+id/nav_search_coordinates"
+            android:icon="@drawable/ic_map_marker_circle"
+            android:title="@string/drawer_item_search_coordinates_title" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_map_marker_circle"
+            android:title="@string/drawer_item_help_title"
+             />
+    </group>
+</menu>

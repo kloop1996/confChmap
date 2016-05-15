@@ -1,12 +1,17 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/menu_search_coordinates"
+        android:icon="@drawable/ic_magnify"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/res_gps"
 
-    <item android:id="@+id/action_favourite"
-        android:icon="@drawable/abc_ratingbar_full_material"
-        android:title="lal"
         />
+    <item
+        android:id="@+id/menu_search_base"
+        android:icon="@drawable/ic_magnify"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/res_admin"/>
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-         />
 </menu>

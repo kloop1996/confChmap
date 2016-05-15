@@ -28,6 +28,9 @@ import java.security.spec.ECField;
  */
 public class FragmentGpsSearch extends Fragment implements View.OnClickListener {
 
+    private final static String LONGITUDE_VALUE = "longitude";
+    private final static String LATITUDE_VALUE = "latitude";
+
     private static Resources mRes;
     private EditText edtLat;
     private EditText edtLong;
@@ -45,6 +48,10 @@ public class FragmentGpsSearch extends Fragment implements View.OnClickListener 
         edtLat = (EditText) rootView.findViewById(R.id.edtLat);
         edtLong = (EditText) rootView.findViewById(R.id.edtLong);
 
+        if (savedInstanceState != null) {
+            edtLat.setText(savedInstanceState.getString(LATITUDE_VALUE));
+            edtLong.setText(savedInstanceState.getString(LONGITUDE_VALUE));
+        }
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -52,6 +59,14 @@ public class FragmentGpsSearch extends Fragment implements View.OnClickListener 
         definePolution.setOnClickListener(this);
         mRes = getResources();
         return rootView;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(LONGITUDE_VALUE, edtLong.getText().toString());
+        savedInstanceState.putString(LATITUDE_VALUE, edtLat.getText().toString());
+
     }
 
     public static Resources mGetRes() {

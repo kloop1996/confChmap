@@ -13,10 +13,12 @@ import com.chmap.kloop.confchmap.R;
 import com.chmap.kloop.confchmap.controller.BackgroundDefinePolution;
 import com.chmap.kloop.confchmap.dao.database.cache.CacheInfmapDatabase;
 import com.chmap.kloop.confchmap.entity.City;
+import com.chmap.kloop.confchmap.entity.Coordinate;
 import com.chmap.kloop.confchmap.entity.Polution;
 import com.chmap.kloop.confchmap.service.exception.ServiceException;
 import com.chmap.kloop.confchmap.service.impl.CoordinateService;
 import com.chmap.kloop.confchmap.service.impl.MapProviderService;
+import com.chmap.kloop.confchmap.service.impl.PolutionType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,10 +47,11 @@ public class DialogShowResult extends DialogFragment {
     static ArrayList<String> getRecomend (double key){
         ArrayList<String> data=new ArrayList<String>();
 
-        for (int i:recomend.get(key))
-        {
-            data.add(permActions[i]);
-        }
+//        if (recomend!=null)
+//        for (int i:recomend.get(key))
+//        {
+//            data.add(permActions[i]);
+//        }
 
         return data;
     }
@@ -104,7 +107,7 @@ public class DialogShowResult extends DialogFragment {
         for (Polution polution:polutions) {
             m = new HashMap<String, String>();
 
-            m.put("phoneName", polution.getYear()+" год: "+polution.getLevel().getStartValue()+" - "+polution.getLevel().getEndValue()); // название телефона
+            m.put("phoneName", polution.getYear()+" год: "+polution.getLevel().getStartValue()+" - "+polution.getLevel().getEndValue()+ "тип :"+ PolutionType.getTypeNamePolution(polution.getType())); // название телефона
             childDataItem.add(m);
         }
         // добавляем в коллекцию коллекций
@@ -144,6 +147,11 @@ public class DialogShowResult extends DialogFragment {
         childDataItem.add(m);
         m = new HashMap<String, String>();
         m.put("phoneName","Долгота: "+BackgroundDefinePolution.getCurrentPosition().getLongitude());
+        try {
+            m.put("phoneName", CoordinateService.getApproximatedDistrict(BackgroundDefinePolution.getCurrentPosition())+" район");
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
         childDataItem.add(m);
 
         childData.add(childDataItem);

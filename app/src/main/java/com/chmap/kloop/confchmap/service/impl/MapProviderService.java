@@ -27,9 +27,9 @@ public class MapProviderService {
         }
     }
 
-    public static Bitmap getMapByTag(String tag,int x,int y) throws ServiceException {
+    public static Bitmap getMapByTag(String tag, int x, int y) throws ServiceException {
         try {
-            return DaoFactory.getDaoFactory().getMapDao().getBitmapByTag(tag,x,y);
+            return DaoFactory.getDaoFactory().getMapDao().getBitmapByTag(tag, x, y);
 
         } catch (DaoException ex) {
             throw new ServiceException("Bitmap service error", ex);
@@ -58,86 +58,104 @@ public class MapProviderService {
     }
 
 
-
-    public static int getXByLong(int idOfLocale, int year, double longitude) throws ServiceException
-    {
-        double aLongitude=0;
+    public static int getXByLong(int idOfLocale, String name, double longitude) throws ServiceException {
+        double aLongitude = 0;
         double divider;
-        try{
-            for (NodeTableLocale nodeTableLocale:CacheInfmapDatabase.getTableLocale())
-                if(nodeTableLocale.getId()==idOfLocale) {
-                    aLongitude=nodeTableLocale.getCoordinateA().getLongitude();
+        try {
+            for (NodeTableLocale nodeTableLocale : CacheInfmapDatabase.getTableLocale())
+                if (nodeTableLocale.getId() == idOfLocale) {
+                    aLongitude = nodeTableLocale.getCoordinateA().getLongitude();
                     break;
                 }
-            divider=1;
-            for (NodeTableMaps nodeTableMaps: CacheInfmapDatabase.getTableMaps()){
-                if ((nodeTableMaps.getIdOfLocale()==idOfLocale)&&(nodeTableMaps.getYear()==year)){
-                    divider=nodeTableMaps.getDividerByLat();
+            divider = 1;
+            for (NodeTableMaps nodeTableMaps : CacheInfmapDatabase.getTableMaps()) {
+                if ((nodeTableMaps.getIdOfLocale() == idOfLocale) && (nodeTableMaps.getName().compareTo(name)==0)) {
+                    divider = nodeTableMaps.getDividerByLong();
                 }
             }
-        }catch (DaoException ex){
-            throw new ServiceException("Error calculate position",ex);
+        } catch (DaoException ex) {
+            throw new ServiceException("Error calculate position", ex);
         }
-        return (int)((longitude-aLongitude)/divider);
+        return (int) ((longitude - aLongitude) / divider);
     }
 
-    public static int getYByLat(int idOfLocale,int year,double latitude) throws ServiceException {
-        double aLatitude=0;
-        double divider=1;
-        try{
-            for (NodeTableLocale nodeTableLocale:CacheInfmapDatabase.getTableLocale())
-                if(nodeTableLocale.getId()==idOfLocale) {
-                    aLatitude=nodeTableLocale.getCoordinateA().getLatitude();
+    public static int getYByLat(int idOfLocale, String name, double latitude) throws ServiceException {
+        double aLatitude = 0;
+        double divider = 1;
+
+        try {
+            for (NodeTableLocale nodeTableLocale : CacheInfmapDatabase.getTableLocale())
+                if (nodeTableLocale.getId() == idOfLocale) {
+                    aLatitude = nodeTableLocale.getCoordinateA().getLatitude();
                     break;
                 }
 
-            for (NodeTableMaps nodeTableMaps: CacheInfmapDatabase.getTableMaps()){
-                if ((nodeTableMaps.getIdOfLocale()==idOfLocale)&&(nodeTableMaps.getYear()==year)){
-                    divider=nodeTableMaps.getDividerByLong();
+            for (NodeTableMaps nodeTableMaps : CacheInfmapDatabase.getTableMaps()) {
+                if ((nodeTableMaps.getIdOfLocale() == idOfLocale) && (nodeTableMaps.getName().compareTo(name)==0)) {
+                    divider = nodeTableMaps.getDividerByLat();
                 }
             }
-        }catch (DaoException ex){
-            throw new ServiceException("Error calcylate position",ex);
+        } catch (DaoException ex) {
+            throw new ServiceException("Error calcylate position", ex);
         }
-        return (int)((aLatitude-latitude)/divider);
+        return (int) ((aLatitude - latitude) / divider);
     }
 
     public static int getIdOfLocale(Coordinate coordinate) throws ServiceException {
         ArrayList<NodeTableLocale> approximatedLocales = new ArrayList<NodeTableLocale>();
-        int color=0;
+        int color = 0;
+
+        int result = 0;
         try {
             for (NodeTableLocale nodeTableLocale : CacheInfmapDatabase.getTableLocale()) {
                 if (((coordinate.getLongitude() >= nodeTableLocale.getCoordinateA().getLongitude()) && (coordinate.getLongitude() <= nodeTableLocale.getCoordinateD().getLongitude())) && (coordinate.getLatitude() >= nodeTableLocale.getCoordinateD().getLatitude() && coordinate.getLatitude() <= nodeTableLocale.getCoordinateA().getLatitude()))
                     approximatedLocales.add(nodeTableLocale);
             }
 
-            for (NodeTableLocale nodeTableLocale:approximatedLocales){
-                //color=MapProviderService.getColorByCoordinate(MapProviderService.getMapByTag(CacheInfmapDatabase.getLocaleFileName(nodeTableLocale.getId())+"_1986.png"),getXByLong(nodeTableLocale.getId(), 1986, coordinate.getLongitude()),getYByLat(nodeTableLocale.getId(),1986,coordinate.getLatitude()));
-                color=MapProviderService.getColorByCoordinate(MapProviderService.getMapByTag(CacheInfmapDatabase.getLocaleFileName(nodeTableLocale.getId())+"_1986.png",getXByLong(nodeTableLocale.getId(), 1986, coordinate.getLongitude()),getYByLat(nodeTableLocale.getId(),1986,coordinate.getLatitude())));
-                if (color!=EMPTY_COLOR){
-                    return nodeTableLocale.getId();
+            for (NodeTableLocale nodeTableLocale : approximatedLocales) {
+                String mapTag = getMapTagByIdCircuit(nodeTableLocale.getIdOfLocaleCircuit());
+
+                color = MapProviderService.getColorByCoordinate(MapProviderService.getMapByTag(mapTag, getXByLong(nodeTableLocale.getId(), mapTag, coordinate.getLongitude()), getYByLat(nodeTableLocale.getId(), mapTag, coordinate.getLatitude())));
+                if (color != EMPTY_COLOR) {
+                    result=nodeTableLocale.getId();
                 }
             }
         } catch (DaoException ex) {
 
         }
-        return 0;
+        return result;
     }
 
-    public static ArrayList<NodeTableMaps> getMapsById(int id) throws ServiceException{
-        ArrayList<NodeTableMaps> nodeTableMaps =new ArrayList<NodeTableMaps>();
+    public static ArrayList<NodeTableMaps> getMapsById(int id) throws ServiceException {
+        ArrayList<NodeTableMaps> nodeTableMaps = new ArrayList<NodeTableMaps>();
 
-        try{
-            for (NodeTableMaps tableMaps:CacheInfmapDatabase.getTableMaps()){
-                if (tableMaps.getIdOfLocale()==id){
+        try {
+            for (NodeTableMaps tableMaps : CacheInfmapDatabase.getTableMaps()) {
+                if (tableMaps.getIdOfLocale() == id) {
                     nodeTableMaps.add(tableMaps);
                 }
             }
 
-        }catch (DaoException ex){
-            throw  new ServiceException("Error",ex);
+        } catch (DaoException ex) {
+            throw new ServiceException("Error", ex);
         }
 
-        return  nodeTableMaps;
+        return nodeTableMaps;
+    }
+
+    private static String getMapTagByIdCircuit(int id) throws ServiceException {
+        String result= null;
+        try {
+            for (NodeTableMaps nodeTableMaps : CacheInfmapDatabase.getTableMaps()){
+                if (nodeTableMaps.getId() == id){
+                    result = nodeTableMaps.getName();
+                    break;
+                }
+            }
+        }catch (DaoException ex){
+            throw new ServiceException("Error define circuit map",ex);
+        }
+
+        return result;
     }
 }

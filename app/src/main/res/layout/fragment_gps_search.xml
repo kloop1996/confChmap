@@ -1,63 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:weightSum="1"
-    android:background="#FFFFFF">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Button
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/btnGpsSearch"
-        android:layout_alignParentStart="true"
-        android:text= "Получить координаты"
-        android:drawableBottom="@drawable/ic_action_location_found_gray"
+        android:layout_height="match_parent"
         android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:weightSum="1"
+        >
 
-        />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:id="@+id/edtLat"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/custtext"
-        android:hint="Широта"
-        android:height="20dp"
-        android:layout_below="@+id/btnGpsSearch" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/edtLong"
-        android:layout_below="@+id/edtLat"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="33dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/custtext"
-        android:focusable="true"
-        android:hint="Долгота
-        "/>
-
-    <Button
-        android:text="Найти"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/btnSearch"
-        android:background="#FFFFFF"
-        android:drawableTop="@drawable/ic_action_search_gray"
-        android:layout_below="@+id/edtLong"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        <Button
+            android:id="@+id/btnGpsSearch"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="20dp"
+            android:background="#FFFFFF"
+            android:drawableBottom="@drawable/ic_action_location_found_gray"
+            android:text="Получить координаты" />
 
 
-</RelativeLayout >
+        <EditText
+            android:id="@+id/edtLat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/custtext"
+            android:hint="Широта"
+            android:inputType="numberDecimal" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05" />
+
+        <EditText
+            android:id="@+id/edtLong"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/custtext"
+            android:ems="10"
+            android:focusable="true"
+            android:hint="Долгота"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFFFFF"
+            android:drawableTop="@drawable/ic_action_search_gray"
+            android:paddingBottom="0dp"
+            android:text="Найти"
+
+            />
+
+
+    </LinearLayout>
+</LinearLayout>

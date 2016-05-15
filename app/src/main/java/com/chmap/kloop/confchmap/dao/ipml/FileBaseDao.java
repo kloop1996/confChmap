@@ -11,9 +11,15 @@ import com.chmap.kloop.confchmap.dao.database.DataBaseRepository;
 import com.chmap.kloop.confchmap.dao.exception.DaoException;
 import com.chmap.kloop.confchmap.entity.NodeTableLocale;
 import com.chmap.kloop.confchmap.entity.NodeTableMaps;
+import com.chmap.kloop.confchmap.entity.PolutionLevel;
+import com.chmap.kloop.confchmap.service.comparator.SortCityByDistance;
+import com.chmap.kloop.confchmap.service.impl.MathService;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by kloop on 15.12.2015.
@@ -47,7 +53,7 @@ public class FileBaseDao implements IBaseDao {
             ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
             dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
             cursor = dbOfCordinates.query("cities", new String[]{
-                    "name", "lat", "long"}, "(" + Double.toString(dlat) + " < lat) AND (" + Double.toString(ulat) + " > lat) AND (" + Double.toString(llong) + " < long) AND (" + Double.toString(rlong) + " > long)", null, null, null, null);
+                    "name", "lat", "long", "idOfDistrict"}, "(" + Double.toString(dlat) + " < lat) AND (" + Double.toString(ulat) + " > lat) AND (" + Double.toString(llong) + " < long) AND (" + Double.toString(rlong) + " > long)", null, null, null, null);
 
             cursor.moveToFirst();
 
@@ -59,6 +65,8 @@ public class FileBaseDao implements IBaseDao {
 
                     currentCordinate.setLatitude(cursor.getDouble(1));
                     currentCordinate.setLongitude(cursor.getDouble(2));
+
+                    city.setIdDistrtict(cursor.getInt(3));
 
                     city.setCoordinate(currentCordinate);
 
@@ -72,12 +80,59 @@ public class FileBaseDao implements IBaseDao {
             if (cursor != null)
                 cursor.close();
 
-            //if (dbOfCordinates != null)
-               // dbOfCordinates.close();
-
         }
 
         return result;
+    }
+
+    @Override
+    public City getNearCity(Coordinate coordinate) throws DaoException {
+        List<City> cities = (getCitiesByCoordinate(coordinate));
+        Collections.sort((getCitiesByCoordinate(coordinate)), new SortCityByDistance());
+
+        if (cities.size() == 0)
+            return null;
+
+        return cities.get(0);
+    }
+
+    @Override
+    public String getApproximateDistrict(Coordinate coordinate) throws DaoException {
+
+        if (getNearCity(coordinate) == null)
+            return null;
+
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+        String result = null;
+
+
+        int idDistrict = getNearCity(coordinate).getIdDistrtict();
+
+        ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+        dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+        cursor = dbOfCordinates.query("districts", new String[]{
+                "name"}, "_id = " + idDistrict, null, null, null, null);
+
+        cursor.moveToFirst();
+        try {
+            if (!cursor.isAfterLast()) {
+                do {
+                    result = cursor.getString(0);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+
+        return result;
+
     }
 
     public ArrayList<NodeTableLocale> getNodesFromLocaleTable() throws DaoException {
@@ -91,7 +146,7 @@ public class FileBaseDao implements IBaseDao {
             dbOfInfmap = DataBaseRepository.getDbByTag(DataBaseRepository.INFMAP).openDataBase();
 
             cursor = dbOfInfmap.query("locales", new String[]{
-                    "_id", "LongOfA", "LatOfA", "LongfOfD", "LatOfD"}, null, null, null, null, null);
+                    "_id", "LongOfA", "LatOfA", "LongfOfD", "LatOfD","id_map_circuit"}, null, null, null, null, null);
 
             cursor.moveToFirst();
 
@@ -99,9 +154,10 @@ public class FileBaseDao implements IBaseDao {
                 do {
                     NodeTableLocale nodeTableLocale = new NodeTableLocale();
 
-                    nodeTableLocale.setCoordinateA(new Coordinate(Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(1))));
-                    nodeTableLocale.setCoordinateD(new Coordinate(Double.parseDouble(cursor.getString(4)), Double.parseDouble(cursor.getString(3))));
-                    nodeTableLocale.setId(Integer.parseInt(cursor.getString(0)));
+                    nodeTableLocale.setCoordinateA(new Coordinate(cursor.getDouble(2),cursor.getDouble(1)));
+                    nodeTableLocale.setCoordinateD(new Coordinate(cursor.getDouble(4), cursor.getDouble(3)));
+                    nodeTableLocale.setId(cursor.getInt(0));
+                    nodeTableLocale.setIdOfLocaleCircuit(cursor.getInt(5));
 
                     result.add(nodeTableLocale);
                 } while (cursor.moveToNext());
@@ -111,7 +167,7 @@ public class FileBaseDao implements IBaseDao {
             throw new DaoException("Error access to Database", ex);
         } finally {
             cursor.close();
-           // dbOfInfmap.close();
+            // dbOfInfmap.close();
         }
 
         return result;
@@ -127,8 +183,8 @@ public class FileBaseDao implements IBaseDao {
         try {
             dbOfInfmap = DataBaseRepository.getDbByTag(DataBaseRepository.INFMAP).openDataBase();
 
-            cursor=dbOfInfmap.query("maps", new String[]{
-                    "idOfLocale", "type", "dividerByLong", "dividerByLat", "year"}, null, null, null, null, null);
+            cursor = dbOfInfmap.query("maps", new String[]{
+                    "idOfLocale", "type", "dividerByLong", "dividerByLat", "year", "idOfGroupLevelPolution", "name","_id"}, null, null, null, null, null);
 
             cursor.moveToFirst();
 
@@ -136,12 +192,18 @@ public class FileBaseDao implements IBaseDao {
                 do {
                     NodeTableMaps nodeTableMap = new NodeTableMaps();
 
-                    nodeTableMap.setIdOfLocale(Integer.parseInt(cursor.getString(0)));
-                    nodeTableMap.setType(Integer.parseInt(cursor.getString(1)));
-                    nodeTableMap.setYear(Integer.parseInt(cursor.getString(4)));
+                    nodeTableMap.setIdOfLocale(cursor.getInt(0));
+                    nodeTableMap.setType(cursor.getInt(1));
+                    nodeTableMap.setYear(cursor.getInt(4));
 
-                    nodeTableMap.setDividerByLong(Double.parseDouble(cursor.getString(2)));
-                    nodeTableMap.setDividerByLat(Double.parseDouble(cursor.getString(3)));
+                    nodeTableMap.setDividerByLong(cursor.getDouble(2));
+                    nodeTableMap.setDividerByLat(cursor.getDouble(3));
+
+                    nodeTableMap.setIdOfGroupLevelPolution(cursor.getInt(5));
+
+                    nodeTableMap.setName(cursor.getString(6));
+                    nodeTableMap.setId(cursor.getInt(7));
+
                     result.add(nodeTableMap);
                 } while (cursor.moveToNext());
             }
@@ -149,10 +211,42 @@ public class FileBaseDao implements IBaseDao {
             throw new DaoException("Error access to Database", ex);
         } finally {
             cursor.close();
-           // dbOfInfmap.close();
+            // dbOfInfmap.close();
         }
 
-        return  result;
+        return result;
+    }
+
+    @Override
+    public PolutionLevel getPolutionLevel(int color, int groupId) throws DaoException {
+        PolutionLevel polutionLevel = new PolutionLevel();
+
+
+        SQLiteDatabase dbOfInfmap = null;
+        Cursor cursor = null;
+
+        try {
+            dbOfInfmap = DataBaseRepository.getDbByTag(DataBaseRepository.INFMAP).openDataBase();
+            long unsignedValueColor = MathService.getUnsignedInt(color);
+
+            cursor = dbOfInfmap.query("polution_level", new String[]{
+                    "startValue", "endValue"}, "(group_id = " + groupId + ") AND (color = "+unsignedValueColor+")", null, null, null, null);
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+                    polutionLevel.setStartValue(cursor.getDouble(0));
+                    polutionLevel.setEndValue(cursor.getDouble(1));
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception ex) {
+            throw new DaoException("Error access to Database", ex);
+        } finally {
+            cursor.close();
+        }
+
+        return polutionLevel;
     }
 
 }

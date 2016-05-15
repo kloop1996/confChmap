@@ -77,7 +77,6 @@ public class FileMapDao implements IMapDao {
         }
 
         return region;
-        /*BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(myStream, false);
-Bitmap region = decoder.decodeRegion(new Rect(10, 10, 50, 50), null);*/
+
     }
 }

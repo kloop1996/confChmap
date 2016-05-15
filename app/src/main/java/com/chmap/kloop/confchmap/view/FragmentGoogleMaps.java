@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-public class FragmentGoogleMaps extends Fragment implements GoogleMap.OnMapLongClickListener {
+public class FragmentGoogleMaps extends Fragment implements GoogleMap.OnMapLongClickListener,GoogleMap.OnMapLoadedCallback {
 
     private static View view;
     private static GoogleMap mMap;
@@ -25,13 +26,21 @@ public class FragmentGoogleMaps extends Fragment implements GoogleMap.OnMapLongC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (container == null) {
-            return null;
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null)
+                parent.removeView(view);
         }
-        view = (RelativeLayout) inflater.inflate(R.layout.fragment_google_maps, container, false);
-        setUpMapIfNeeded();
-
+        try {
+            view = (RelativeLayout) inflater.inflate(R.layout.fragment_google_maps, container, false);
+            setUpMapIfNeeded();
+        } catch (InflateException e) {
+        /* map is already there, just return view as it is */
+        }
         return view;
+
+
+
     }
 
 
@@ -55,7 +64,7 @@ public class FragmentGoogleMaps extends Fragment implements GoogleMap.OnMapLongC
 
         if (mMap != null)
             mMap.setOnMapLongClickListener(this);
-            setUpMap();
+        setUpMap();
 
         if (mMap == null) {
 
@@ -72,26 +81,34 @@ public class FragmentGoogleMaps extends Fragment implements GoogleMap.OnMapLongC
         super.onDestroyView();
         try {
             Fragment fragment = getFragmentManager().findFragmentById(R.id.location_map);
-            if (mMap != null&&fragment.isResumed()) {
+            if (mMap != null && fragment.isResumed()) {
                 MainActivity.fragmentManager.beginTransaction()
                         .remove(MainActivity.fragmentManager.findFragmentById(R.id.location_map)).commit();
                 mMap = null;
             }
-        }catch (Exception ex){;}
+        } catch (Exception ex) {
+            ;
+        }
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
 
-        Coordinate coordinate= new Coordinate(latLng.latitude,latLng.longitude);
+        Coordinate coordinate = new Coordinate(latLng.latitude, latLng.longitude);
 
-        BackgroundDefinePolution mt =new BackgroundDefinePolution();
+        BackgroundDefinePolution mt = new BackgroundDefinePolution();
         mt.execute(coordinate);
     }
 
+
+    @Override
+    public void onMapLoaded() {
+        mMap.setOnMapLongClickListener(this);
+        mMap.setMyLocationEnabled(true);
+    }
 }

@@ -18,18 +18,6 @@ public class CacheInfmapDatabase {
     private static ArrayList<NodeTableLocale> tableLocale;
     private static ArrayList<NodeTableMaps> tableMaps;
 
-    public static String getLocaleFileName(int key) {
-        if (fileLocalesNames == null) {
-            fileLocalesNames = new HashMap<Integer, String>();
-
-            fileLocalesNames.put(1, "brest");
-            fileLocalesNames.put(3, "gomel");
-            fileLocalesNames.put(4, "grodno");
-            fileLocalesNames.put(5, "minsk");
-            fileLocalesNames.put(6, "mogilev");
-        }
-        return fileLocalesNames.get(key);
-    }
 
     public static String getLocaleName(int key) {
         if (localeNames == null) {
@@ -40,6 +28,7 @@ public class CacheInfmapDatabase {
             localeNames.put(4, "Гродненская");
             localeNames.put(5, "Минская");
             localeNames.put(6, "Могилевская");
+            localeNames.put(7, "ПГРЭЗ");
         }
 
         return localeNames.get(key);

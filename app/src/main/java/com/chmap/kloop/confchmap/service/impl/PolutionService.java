@@ -1,12 +1,16 @@
 package com.chmap.kloop.confchmap.service.impl;
 
+import android.util.Log;
+
 import com.chmap.kloop.confchmap.dao.database.cache.CacheInfmapDatabase;
+import com.chmap.kloop.confchmap.dao.exception.DaoException;
+import com.chmap.kloop.confchmap.dao.factory.DaoFactory;
 import com.chmap.kloop.confchmap.entity.Coordinate;
 import com.chmap.kloop.confchmap.entity.NodeTableMaps;
 import com.chmap.kloop.confchmap.entity.Polution;
 import com.chmap.kloop.confchmap.entity.PolutionLevel;
-import com.chmap.kloop.confchmap.entity.PolutionTypeName;
 import com.chmap.kloop.confchmap.service.exception.ServiceException;
+import com.mikepenz.materialize.util.SystemUtils;
 
 import java.util.ArrayList;
 
@@ -14,82 +18,65 @@ import java.util.ArrayList;
  * Created by kloop on 15.12.2015.
  */
 public class PolutionService {
-    public static ArrayList<Polution> getAllPolutionByCordinate(Coordinate coordinate) throws ServiceException{
+    public static ArrayList<Polution> getAllPolutionByCordinate(Coordinate coordinate) throws ServiceException {
         ArrayList<Polution> result = new ArrayList<Polution>();
 
-        int idOfLocale=MapProviderService.getIdOfLocale(coordinate);
-        ArrayList<NodeTableMaps> tableMaps=MapProviderService.getMapsById(idOfLocale);
+        long currentTime = System.currentTimeMillis();
+        int idOfLocale = MapProviderService.getIdOfLocale(coordinate);
+        Log.d("idOfLocale",String.valueOf(System.currentTimeMillis()-currentTime));
 
+        ArrayList<NodeTableMaps> tableMaps = MapProviderService.getMapsById(idOfLocale);
+
+        currentTime = System.currentTimeMillis();
         try {
-            for(NodeTableMaps nodeTableMaps:tableMaps) {
+            for (NodeTableMaps nodeTableMaps : tableMaps) {
 
                 Polution currentPolution = new Polution();
 
-                int x=MapProviderService.getXByLong(idOfLocale, nodeTableMaps.getYear(), coordinate.getLongitude());
-                int y=MapProviderService.getYByLat(idOfLocale, nodeTableMaps.getYear(), coordinate.getLatitude());
+                int color;
 
-               //int color = MapProviderService.getColorByCoordinate(MapProviderService.getMapByTag(CacheInfmapDatabase.getLocaleFileName(idOfLocale)+"_"+Integer.toString(nodeTableMaps.getYear())+".png"), x, y);
+                //костыль
+                if (nodeTableMaps.getType() == PolutionType.SR_TYPE && nodeTableMaps.getIdOfLocale()!=7) {
+                    int x = MapProviderService.getXByLong(3, nodeTableMaps.getName(), coordinate.getLongitude());
+                    int y = MapProviderService.getYByLat(6, nodeTableMaps.getName(), coordinate.getLatitude());
 
-                int color=MapProviderService.getColorByCoordinate(MapProviderService.getMapByTag(CacheInfmapDatabase.getLocaleFileName(idOfLocale)+"_"+Integer.toString(nodeTableMaps.getYear())+".png", x, y));
+                    color = MapProviderService.getColorByCoordinate(MapProviderService.getMapByTag(nodeTableMaps.getName(), x, y));
+                    currentPolution.setLevel(getPolution(color,nodeTableMaps.getIdOfGroupLevelPolution()));
+                } else {
+                    int x = MapProviderService.getXByLong(idOfLocale, nodeTableMaps.getName(), coordinate.getLongitude());
+                    int y = MapProviderService.getYByLat(idOfLocale, nodeTableMaps.getName(), coordinate.getLatitude());
 
-                currentPolution.setLevel(getPolutionByColor(color));
+
+                    color = MapProviderService.getColorByCoordinate(MapProviderService.getMapByTag(nodeTableMaps.getName(), x, y));
+
+                    currentTime = System.currentTimeMillis();
+                    currentPolution.setLevel(getPolution(color,nodeTableMaps.getIdOfGroupLevelPolution()));
+                    Log.d("getLevel",String.valueOf(System.currentTimeMillis()-currentTime));
+                }
+
+
                 currentPolution.setYear(nodeTableMaps.getYear());
-                currentPolution.setType(1);
+                currentPolution.setType(nodeTableMaps.getType());
 
                 result.add(currentPolution);
             }
         } catch (ServiceException ex) {
             throw ex;
         }
-
+        Log.d("Bitmap",String.valueOf(System.currentTimeMillis()-currentTime));
         return result;
     }
 
-    private static PolutionLevel getPolutionByColor(int color){
+    private static PolutionLevel getPolution(int color, int groupLevelPolution) throws ServiceException {
+        PolutionLevel polutionLevel;
 
-        PolutionLevel polutionLevel=new PolutionLevel();
+        try {
+            polutionLevel = DaoFactory.getDaoFactory().getBaseDao().getPolutionLevel(color, groupLevelPolution);
+        } catch (DaoException ex) {
+            throw new ServiceException("Error calcylate position", ex);
+        }
 
-            switch (color){
-                case 0xffeef3c1:
-                    polutionLevel.setStartValue(0);
-                    polutionLevel.setEndValue(0.1);
-                    break;
-                case 0xfffffbc8:
-                    polutionLevel.setStartValue(0.1);
-                    polutionLevel.setEndValue(0.2);
-                    break;
-                case 0xfffedbb4:
-                    polutionLevel.setStartValue(0.2);
-                    polutionLevel.setEndValue(0.5);
-                    break;
-                case 0xfff8b5b2:
-                    polutionLevel.setStartValue(0.5);
-                    polutionLevel.setEndValue(0.1);
-                    break;
-
-                case 0xffea95a4:
-                    polutionLevel.setStartValue(1);
-                    polutionLevel.setEndValue(5);
-                    break;
-
-                case 0xfff27180:
-                    polutionLevel.setStartValue(5);
-                    polutionLevel.setEndValue(15);
-                    break;
-
-                case 0xffd74c64:
-                    polutionLevel.setStartValue(15);
-                    polutionLevel.setEndValue(40);
-                    break;
-
-                case  0xffbe106e:
-                    polutionLevel.setStartValue(40);
-                    polutionLevel.setEndValue(40);
-                    break;
-            }
-
-
-        return  polutionLevel;
+        return polutionLevel;
     }
 
 }
