@@ -13,11 +13,10 @@ import com.chmap.kloop.confchmap.service.comparator.SortPolutionByYear;
 import com.chmap.kloop.confchmap.service.exception.ServiceException;
 import com.chmap.kloop.confchmap.service.impl.CoordinateService;
 import com.chmap.kloop.confchmap.service.impl.PolutionService;
-import com.chmap.kloop.confchmap.MainActivity;
+import com.chmap.kloop.confchmap.view.activity.MainActivity;
 import com.chmap.kloop.confchmap.view.dialog.DialogShowResult;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 /**

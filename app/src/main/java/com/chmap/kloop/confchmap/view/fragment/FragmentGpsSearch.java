@@ -1,4 +1,4 @@
-package com.chmap.kloop.confchmap.view;
+package com.chmap.kloop.confchmap.view.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;

@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Rect;
 
-import com.chmap.kloop.confchmap.MainActivity;
+import com.chmap.kloop.confchmap.view.activity.MainActivity;
 import com.chmap.kloop.confchmap.dao.IMapDao;
 import com.chmap.kloop.confchmap.dao.exception.DaoException;
 

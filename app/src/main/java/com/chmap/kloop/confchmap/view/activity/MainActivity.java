@@ -1,7 +1,6 @@
-package com.chmap.kloop.confchmap;
+package com.chmap.kloop.confchmap.view.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -12,14 +11,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.chmap.kloop.confchmap.view.FragmentGoogleMaps;
-import com.chmap.kloop.confchmap.view.FragmentGpsSearch;
+import com.chmap.kloop.confchmap.OnNavigationDrawerListener;
+import com.chmap.kloop.confchmap.R;
+import com.chmap.kloop.confchmap.view.fragment.FragmentGpsSearch;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
-public class MainActivity extends AppCompatActivity implements OnNavigationDrawerListener{
+public class MainActivity extends AppCompatActivity implements OnNavigationDrawerListener {
 
 
     private final static String GPS_FRAGMENT = "gps_fragment";
@@ -106,50 +105,51 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
-        FragmentTransaction tx;
-        Fragment fragment;
-
-        switch (item.getItemId()) {
-            case R.id.menu_search_coordinates:
-
-
-                FragmentGpsSearch fragmentGpsSearch = (FragmentGpsSearch) getFragmentManager().findFragmentByTag(GPS_FRAGMENT);
-
-                if (fragmentGpsSearch != null && fragmentGpsSearch.isVisible()) {
-                    break;
-                }
-
-
-                tx = getFragmentManager()
-                        .beginTransaction();
-
-                fragment = new FragmentGpsSearch();
-
-                tx.replace(android.R.id.content, fragment, GPS_FRAGMENT);
-                tx.addToBackStack(null);
-
-                tx.commit();
-                break;
-            case R.id.menu_search_base:
-
-                fragment = (FragmentGoogleMaps) getFragmentManager().findFragmentByTag(GOOGLEMAPS_FRAGMENT);
-                if (fragment != null && fragment.isVisible()) {
-                    break;
-                }
-
-                tx = getFragmentManager()
-                        .beginTransaction();
-
-
-                fragment = new FragmentGoogleMaps();
-                tx.replace(android.R.id.content, fragment, GOOGLEMAPS_FRAGMENT);
-                tx.addToBackStack(null);
-                tx.commit();
-                break;
-
-        }
         return false;
+        // TODO Auto-generated method stub
+//        FragmentTransaction tx;
+//        Fragment fragment;
+//
+//        switch (item.getItemId()) {
+//            case R.id.menu_search_coordinates:
+//
+//
+//                FragmentGpsSearch fragmentGpsSearch = (FragmentGpsSearch) getFragmentManager().findFragmentByTag(GPS_FRAGMENT);
+//
+//                if (fragmentGpsSearch != null && fragmentGpsSearch.isVisible()) {
+//                    break;
+//                }
+//
+//
+//                tx = getFragmentManager()
+//                        .beginTransaction();
+//
+//                fragment = new FragmentGpsSearch();
+//
+//                tx.replace(android.R.id.content, fragment, GPS_FRAGMENT);
+//                tx.addToBackStack(null);
+//
+//                tx.commit();
+//                break;
+//            case R.id.menu_search_base:
+//
+//                fragment = (FragmentGoogleMaps) getFragmentManager().findFragmentByTag(GOOGLEMAPS_FRAGMENT);
+//                if (fragment != null && fragment.isVisible()) {
+//                    break;
+//                }
+//
+//                tx = getFragmentManager()
+//                        .beginTransaction();
+//
+//
+//                fragment = new FragmentGoogleMaps();
+//                tx.replace(android.R.id.content, fragment, GOOGLEMAPS_FRAGMENT);
+//                tx.addToBackStack(null);
+//                tx.commit();
+//                break;
+//
+//        }
+//        return false;
 
     }
 

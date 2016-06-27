@@ -1,6 +1,6 @@
 package com.chmap.kloop.confchmap.dao.database;
 
-import com.chmap.kloop.confchmap.MainActivity;
+import com.chmap.kloop.confchmap.view.activity.MainActivity;
 
 /**
  * Created by kloop on 15.12.2015.

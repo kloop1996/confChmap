@@ -12,10 +12,7 @@
     <padding
         android:bottom="10px"
         android:left="10px"/>
-    <corners
-
-
-        />
+    <corners />
     <size android:height="50dp"></size>
 
 </shape>

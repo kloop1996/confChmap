@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimaryDark">#40323f</color>
+    <color name="colorPrimary">#4b3a4a</color>
     <color name="greenColor">#00a885</color>
     <color name="toolbarColor">#4b3a4a</color>
     <color name="description_item_text_color">#8b9094</color>>

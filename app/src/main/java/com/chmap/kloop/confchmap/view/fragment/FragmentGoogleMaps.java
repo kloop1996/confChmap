@@ -1,16 +1,14 @@
-package com.chmap.kloop.confchmap.view;
+package com.chmap.kloop.confchmap.view.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.chmap.kloop.confchmap.MainActivity;
+import com.chmap.kloop.confchmap.view.activity.MainActivity;
 import com.chmap.kloop.confchmap.R;
 import com.chmap.kloop.confchmap.controller.BackgroundDefinePolution;
 import com.chmap.kloop.confchmap.entity.Coordinate;

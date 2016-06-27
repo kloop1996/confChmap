@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/MainActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/controller/BackgroundDefinePolution.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/controller/ControllerException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/dao/IBaseDao.java" charset="UTF-8" />
@@ -26,8 +25,9 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/impl/MapProviderService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/impl/PolutionService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/service/impl/RecommendationService.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/FragmentGoogleMaps.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/activity/MainActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/dialog/DialogShowResult.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/chmap/kloop/confchmap/view/fragment/FragmentGoogleMaps.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
