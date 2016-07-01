@@ -19,7 +19,10 @@
     <string name="drawer_item_help_subtitle">Запрос в техподдержку</string>>
 
     <string name= "drawer_tolbar_title">Варианты поиска</string>
-
+    <string name="enter_coordinate">Ввод координат</string>
+    <string name="search">поиск</string>
+    <string name="longitude">ДОЛГОТА</string>
+    <string name="latitude">ШИРОТА</string>
 
 
 </resources>

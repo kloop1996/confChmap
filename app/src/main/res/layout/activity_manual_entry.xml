@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.chmap.kloop.confchmap.viewmodel.ManualEntryViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:gravity="center">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+
+            android:background="?attr/colorPrimary"
+
+            />
+
+        <!-- the layout which will contain (host) the drawerLayout -->
+        <FrameLayout
+            android:background="@color/colorPrimary"
+            android:id="@+id/drawer_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
+
+            <!-- the layout which will be the content of the activity (which will be hosted inside the drawer (NOT the list of the drawer)) -->
+            <FrameLayout
+                android:background="@color/colorPrimary"
+                android:id="@+id/frame_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/layout_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_above="@+id/search_button"
+                        android:layout_marginBottom="30dp"
+                        >
+                            <TextView
+                                android:layout_marginLeft="50dp"
+                                android:textColor="@color/edit_text_color"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:textSize="16sp"
+                                android:text="@string/latitude"
+                                android:layout_marginBottom="2dp"/>
+
+                            <EditText
+
+                                android:id="@+id/latitudeEdit"
+
+                                android:textColor="@color/md_white_1000"
+                                android:inputType="textEmailAddress"
+                                android:layout_marginRight="50dp"
+                                android:layout_marginLeft="50dp"
+
+                                android:layout_height="40dp"
+                                android:layout_width="match_parent"/>
+
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="50dp"
+                            android:textColor="@color/edit_text_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:textSize="16sp"
+                            android:text="@string/longitude"
+                            android:layout_marginBottom="2dp"/>
+
+                            <EditText
+
+                                android:layout_marginRight="50dp"
+                                android:layout_marginLeft="50dp"
+                                android:layout_height="40dp"
+                                android:layout_width="match_parent"
+                                />
+
+
+
+                        <!-- Login Button -->
+
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/search_button"
+                        android:layout_marginBottom="45dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginLeft="50dp"
+                        android:background="@drawable/rounded_button"
+                        android:layout_width="match_parent"
+                        android:text="@string/search"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+            </FrameLayout>
+        </FrameLayout>
+    </RelativeLayout>
+
+</layout>

@@ -3,6 +3,7 @@ package com.chmap.kloop.confchmap.view.activity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,12 +12,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.chmap.kloop.confchmap.Constants;
 import com.chmap.kloop.confchmap.OnNavigationDrawerListener;
 import com.chmap.kloop.confchmap.R;
 import com.chmap.kloop.confchmap.view.fragment.FragmentGpsSearch;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationDrawerListener {
 
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_search_base_title).withIcon(R.drawable.ic_format_list_bulleted_type).withDescription(R.string.drawer_item_search_base_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_search_gps_title).withIcon(R.drawable.ic_crosshairs_gps).withDescription(R.string.drawer_item_search_gps_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_search_coordinates_title).withIcon(R.drawable.ic_map_marker_circle).withDescription(R.string.drawer_item_search_coordinates_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_search_coordinates_title).withIcon(R.drawable.ic_map_marker_circle).withDescription(R.string.drawer_item_search_coordinates_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color).withTag(Constants.MANUAL_ENTRY_ACTIVITY),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_help_title).withIcon(R.drawable.ic_help_circle_outline).withDescription(R.string.drawer_item_help_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color)
                 ).withSavedInstance(savedInstanceState).withOnDrawerListener(new Drawer.OnDrawerListener() {
             @Override
@@ -79,6 +82,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
 
             }
         })
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        changeActivity((String)drawerItem.getTag());
+                        return false;
+                    }
+                })
                 .build();
 
 
@@ -162,5 +172,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
     @Override
     public void onDrawerOpen() {
         getSupportActionBar().setTitle(R.string.drawer_tolbar_title);
+    }
+
+    private void changeActivity(String tag){
+        switch (tag){
+            case Constants.MANUAL_ENTRY_ACTIVITY:
+                startActivity(new Intent(this, ManualEntryActivity.class));
+                break;
+        }
     }
 }
