@@ -7,5 +7,6 @@
     <color name="toolbarColor">#4b3a4a</color>
     <color name="description_item_text_color">#8b9094</color>>
     <color name="edit_text_color">#865f74</color>
-
+    <color name="text_color_year">#787b80</color>
+    <color name="text_color_polution">#a5acb2</color>
 </resources>

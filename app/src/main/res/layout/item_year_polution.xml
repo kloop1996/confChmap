@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.chmap.kloop.confchmap.viewmodel.ItemYearPolutionViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_white_1000"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="10dp"
+            android:text='@{viewModel.polutionYear}'
+            android:textColor="@color/text_color_year"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/level_polution"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="6dp"
+            android:text='@{"Плотность загрязнения " + viewModel.polutionLevel+" кю/км2"}'
+            android:textColor="@color/text_color_polution"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</layout>

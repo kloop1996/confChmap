@@ -16,13 +16,15 @@ import com.chmap.kloop.confchmap.viewmodel.ManualEntryViewModel;
 public class ManualEntryActivity extends AppCompatActivity {
 
     private ActivityManualEntryBinding activityManualEntryBinding;
+    private ManualEntryViewModel manualEntryViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityManualEntryBinding = DataBindingUtil.setContentView(this,R.layout.activity_manual_entry);
 
-        activityManualEntryBinding.setViewModel(new ManualEntryViewModel(this));
+        manualEntryViewModel = new ManualEntryViewModel(this);
+        activityManualEntryBinding.setViewModel(manualEntryViewModel);
 
         setSupportActionBar(activityManualEntryBinding.toolbar);
 
@@ -32,7 +34,19 @@ public class ManualEntryActivity extends AppCompatActivity {
         ab.setTitle(R.string.app_name);
 
         activityManualEntryBinding.toolbar.setTitle(R.string.enter_coordinate);
-       // activityManualEntryBinding.toolbar.getBackground().setAlpha(0);
+      
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        manualEntryViewModel.notifyActivityOnStart();
+    }
+
+    @Override
+    public void onStop() {
+        manualEntryViewModel.notifyActivityOnStop();
+        super.onStop();
     }
 
     @Override

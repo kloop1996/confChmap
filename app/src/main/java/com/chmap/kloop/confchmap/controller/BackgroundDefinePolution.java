@@ -1,6 +1,8 @@
 package com.chmap.kloop.confchmap.controller;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,6 +16,8 @@ import com.chmap.kloop.confchmap.service.exception.ServiceException;
 import com.chmap.kloop.confchmap.service.impl.CoordinateService;
 import com.chmap.kloop.confchmap.service.impl.PolutionService;
 import com.chmap.kloop.confchmap.view.activity.MainActivity;
+import com.chmap.kloop.confchmap.view.activity.ManualEntryActivity;
+import com.chmap.kloop.confchmap.view.activity.ResultActivity;
 import com.chmap.kloop.confchmap.view.dialog.DialogShowResult;
 
 import java.util.ArrayList;
@@ -28,6 +32,10 @@ public class BackgroundDefinePolution extends AsyncTask<Coordinate, Void, Void> 
     private static ArrayList<Polution> polutions;
     private static Coordinate currentPosition;
     private boolean error = false;
+
+    private Context context;
+
+    public void setContext (Context context){this.context = context;}
 
     public static ArrayList<Polution> getResultPolution() {
         return polutions;
@@ -44,18 +52,11 @@ public class BackgroundDefinePolution extends AsyncTask<Coordinate, Void, Void> 
         polutions=null;
         currentPosition=params[0];
         try {
-            long currentTime = System.currentTimeMillis();
 
             polutions = PolutionService.getAllPolutionByCordinate(params[0]);
             Collections.sort(polutions,new SortPolutionByYear());
 
-            Log.d("Polutiong",String.valueOf(currentTime - System.currentTimeMillis()));
-
-            currentTime = System.currentTimeMillis();
             nearCity = CoordinateService.getNearCities(params[0]);
-
-            Log.d("NearCity",String.valueOf(currentTime - System.currentTimeMillis()));
-
             Collections.sort(nearCity, new SortCityByDistance());
         } catch (ServiceException e) {
             error=true;
@@ -78,9 +79,11 @@ public class BackgroundDefinePolution extends AsyncTask<Coordinate, Void, Void> 
         if (error||polutions.size()==0) {
             Toast.makeText(MainActivity.getInstance(), "Ошибка определения загрязнения", Toast.LENGTH_LONG).show();
         } else {
-            FragmentManager manager = MainActivity.getInstance().getFragmentManager();
-            DialogShowResult dlgResult = new DialogShowResult();
-            dlgResult.show(manager, "fragment_edit_name");
+//            FragmentManager manager = MainActivity.getInstance().getFragmentManager();
+//            DialogShowResult dlgResult = new DialogShowResult();
+//            dlgResult.show(manager, "fragment_edit_name");
+                Intent intent = new Intent(context,ResultActivity.class);
+                context.startActivity(intent);
         }
     }
 }

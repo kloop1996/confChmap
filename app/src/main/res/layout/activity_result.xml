@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.chmap.kloop.confchmap.viewmodel.ResultViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+
+            android:background="?attr/colorPrimary"
+
+        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/place_text"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:text="Мозырь"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="34sp"
+            android:textColor="@color/md_white_1000"/>
+
+            <TextView
+                android:text="@string/message_click_for_additinal_inf"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_below="@+id/place_text"
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/md_white_1000"
+
+                android:layout_height="20dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/years_polutions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:scrollbars="vertical" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</layout>

@@ -25,12 +25,9 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
 
 
     private final static String GPS_FRAGMENT = "gps_fragment";
-    private final static String GOOGLEMAPS_FRAGMENT = "google_maps_fragment";
-
-    private Drawer mDrawer;
-
     public static Activity activity;
     public static FragmentManager fragmentManager;
+    private Drawer mDrawer;
 
     public static Activity getInstance() {
         return activity;
@@ -69,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
                 ).withSavedInstance(savedInstanceState).withOnDrawerListener(new Drawer.OnDrawerListener() {
             @Override
             public void onDrawerOpened(View view) {
-                ( (OnNavigationDrawerListener) MainActivity.getInstance()).onDrawerOpen();
+                ((OnNavigationDrawerListener) MainActivity.getInstance()).onDrawerOpen();
             }
 
             @Override
             public void onDrawerClosed(View view) {
-                ( (OnNavigationDrawerListener) MainActivity.getInstance()).onDrawerClose();
+                ((OnNavigationDrawerListener) MainActivity.getInstance()).onDrawerClose();
             }
 
             @Override
@@ -85,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        changeActivity((String)drawerItem.getTag());
+                        changeActivity((String) drawerItem.getTag());
                         return false;
                     }
                 })
@@ -116,51 +113,6 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return false;
-        // TODO Auto-generated method stub
-//        FragmentTransaction tx;
-//        Fragment fragment;
-//
-//        switch (item.getItemId()) {
-//            case R.id.menu_search_coordinates:
-//
-//
-//                FragmentGpsSearch fragmentGpsSearch = (FragmentGpsSearch) getFragmentManager().findFragmentByTag(GPS_FRAGMENT);
-//
-//                if (fragmentGpsSearch != null && fragmentGpsSearch.isVisible()) {
-//                    break;
-//                }
-//
-//
-//                tx = getFragmentManager()
-//                        .beginTransaction();
-//
-//                fragment = new FragmentGpsSearch();
-//
-//                tx.replace(android.R.id.content, fragment, GPS_FRAGMENT);
-//                tx.addToBackStack(null);
-//
-//                tx.commit();
-//                break;
-//            case R.id.menu_search_base:
-//
-//                fragment = (FragmentGoogleMaps) getFragmentManager().findFragmentByTag(GOOGLEMAPS_FRAGMENT);
-//                if (fragment != null && fragment.isVisible()) {
-//                    break;
-//                }
-//
-//                tx = getFragmentManager()
-//                        .beginTransaction();
-//
-//
-//                fragment = new FragmentGoogleMaps();
-//                tx.replace(android.R.id.content, fragment, GOOGLEMAPS_FRAGMENT);
-//                tx.addToBackStack(null);
-//                tx.commit();
-//                break;
-//
-//        }
-//        return false;
-
     }
 
 
@@ -174,11 +126,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
         getSupportActionBar().setTitle(R.string.drawer_tolbar_title);
     }
 
-    private void changeActivity(String tag){
-        switch (tag){
+    private void changeActivity(String tag) {
+        switch (tag) {
             case Constants.MANUAL_ENTRY_ACTIVITY:
                 startActivity(new Intent(this, ManualEntryActivity.class));
                 break;
         }
     }
+
+
+
 }

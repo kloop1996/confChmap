@@ -23,6 +23,8 @@
     <string name="search">поиск</string>
     <string name="longitude">ДОЛГОТА</string>
     <string name="latitude">ШИРОТА</string>
+    <string name="message_click_for_additinal_inf">Нажмите для получения доп. информации</string>
+    <string name="message_density_polution">Плотность загрязнения</string>
 
 
 </resources>

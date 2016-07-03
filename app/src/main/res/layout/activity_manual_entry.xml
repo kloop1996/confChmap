@@ -44,7 +44,19 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/layout_content"
+                        >
 
+                    <ImageButton
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/circle_button_gps"
+                        android:onClick='@{viewModel.onClickGps}'
+                        android:layout_centerInParent="true" />
+                    </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/layout_content"
                         android:layout_width="fill_parent"
@@ -54,6 +66,7 @@
                         android:layout_marginBottom="30dp"
                         >
                             <TextView
+
                                 android:layout_marginLeft="50dp"
                                 android:textColor="@color/edit_text_color"
                                 android:layout_width="wrap_content"
@@ -63,11 +76,11 @@
                                 android:layout_marginBottom="2dp"/>
 
                             <EditText
-
+                                android:text='@{viewModel.latitudeField}'
                                 android:id="@+id/latitudeEdit"
-
+                                android:inputType="numberDecimal"
                                 android:textColor="@color/md_white_1000"
-                                android:inputType="textEmailAddress"
+
                                 android:layout_marginRight="50dp"
                                 android:layout_marginLeft="50dp"
 
@@ -86,7 +99,8 @@
                             android:layout_marginBottom="2dp"/>
 
                             <EditText
-
+                                android:text='@{viewModel.longitudeField}'
+                                android:inputType="numberDecimal"
                                 android:layout_marginRight="50dp"
                                 android:layout_marginLeft="50dp"
                                 android:layout_height="40dp"
@@ -101,6 +115,7 @@
                     </LinearLayout>
 
                     <Button
+                        android:onClick='@{viewModel.onClickSearch}'
                         android:id="@+id/search_button"
                         android:layout_marginBottom="45dp"
                         android:layout_marginRight="50dp"
