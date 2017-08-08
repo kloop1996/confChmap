@@ -21,7 +21,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-
             android:background="?attr/colorPrimary"
 
             />
@@ -49,8 +48,20 @@
                         android:layout_height="match_parent"
                         android:layout_above="@+id/layout_content"
                         >
-
+                        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                            android:id="@+id/pulsator"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            app:pulse_count="4"
+                            app:pulse_duration="4000"
+                            app:pulse_repeat="1"
+                            app:pulse_color="@color/colorAccent"
+                            app:pulse_startFromScratch="false"
+                            app:pulse_interpolator="Linear">
+                        </pl.bclogic.pulsator4droid.library.PulsatorLayout>
                     <ImageButton
+                        android:id="@+id/gps_button"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@drawable/circle_button_gps"
@@ -73,7 +84,8 @@
                                 android:layout_height="20dp"
                                 android:textSize="16sp"
                                 android:text="@string/latitude"
-                                android:layout_marginBottom="2dp"/>
+                                android:layout_marginBottom="2dp"
+                                />
 
                             <EditText
                                 android:text='@{viewModel.latitudeField}'
@@ -85,7 +97,8 @@
                                 android:layout_marginLeft="50dp"
 
                                 android:layout_height="40dp"
-                                android:layout_width="match_parent"/>
+                                android:layout_width="match_parent"
+                                app:addTextChangedListener="@{viewModel.latitudeEditTextWatcher}"/>
 
 
                         <TextView
@@ -105,6 +118,7 @@
                                 android:layout_marginLeft="50dp"
                                 android:layout_height="40dp"
                                 android:layout_width="match_parent"
+                                app:addTextChangedListener="@{viewModel.longitudeEditTextWatcher}"
                                 />
 
 

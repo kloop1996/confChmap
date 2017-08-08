@@ -7,6 +7,8 @@
     <string name="res_help">Поиск по названию</string>
     <string name="res_gps">Поиск по GPS</string>
     <string name="res_admin">Поиск по карте</string>
+    <string name="from">Откуда</string>
+    <string name="to">Куда</string>
 
     <string name="drawer_item_search_base_title">По базе</string>
     <string name="drawer_item_search_gps_title">GPS</string>
@@ -18,13 +20,36 @@
     <string name="drawer_item_search_coordinates_subtitle">Вывод данных по точке</string>>
     <string name="drawer_item_help_subtitle">Запрос в техподдержку</string>>
 
-    <string name= "drawer_tolbar_title">Варианты поиска</string>
+    <string name="drawer_tolbar_title">Варианты поиска</string>
     <string name="enter_coordinate">Ввод координат</string>
     <string name="search">поиск</string>
     <string name="longitude">ДОЛГОТА</string>
     <string name="latitude">ШИРОТА</string>
     <string name="message_click_for_additinal_inf">Нажмите для получения доп. информации</string>
-    <string name="message_density_polution">Плотность загрязнения</string>
+    <string name="message_click_gps_use">либо воспользуйтесь GPS</string>
+    <string name="message_density_polution">Плотность загрязнения %s кю/км2</string>
+    <string name="message_select_location">Выберите %s</string>
+    <string name="message_count_for_choice">%d точек для выбора</string>
+    <string name="message_current_location">%s</string>
+    <string name="message_ku">ки/км2</string>
+    <string name="message_coordinate">%1$.5f° с.ш. %2$.5f° в.д.</string>
+    <string name="message_coordinate_enter">Введите координаты</string>
+
+    <string name="locale">область</string>
+    <string name="district">район</string>
+    <string name="city">нас.пункт</string>
+    <string name="info">INFO</string>
+    
+    <string name="info_and_recomendations">Информация и рекомендации</string>
+    <string name="recommend">Рекомендации</string>
+    <string name="map_message">По карте</string>
+    <string name="lghp_message">ЛГХП</string>
+    <string name="message_internet_connect">Требуется интернет</string>
+    <string name="message_select_point">Выбор точки</string>
+    <string name="lghp">ЛГХП</string>
+    <string name="google_direction_key">AIzaSyDz2Ig33CPkAGL-ouQTH8QflAe58IlSpIg</string>
+    <string name="detail_info">Подробная информация</string>
+    <string name="cuting">Разрезы:</string>
 
 
 </resources>

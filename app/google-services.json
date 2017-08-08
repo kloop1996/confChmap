@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "56202072372",
+    "firebase_url": "https://chmap-1005.firebaseio.com",
+    "project_id": "chmap-1005",
+    "storage_bucket": "chmap-1005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56202072372:android:6000a03b1186955e",
+        "android_client_info": {
+          "package_name": "com.example.kloop1996.chmapofficial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56202072372-pjioti30jmuvf0qu80umnosd2jkd2v1c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kloop1996.chmapofficial",
+            "certificate_hash": "b7cfda55ddb66b95c42fb4510c27cbd00933aacf"
+          }
+        },
+        {
+          "client_id": "56202072372-j18formf49lckojn1ftgtq1q6e7ams93.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLttlibVNb-sTVCRY84wqjgzK3MUPQVTk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "56202072372-j18formf49lckojn1ftgtq1q6e7ams93.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56202072372:android:70e6c55e1bf26136",
+        "android_client_info": {
+          "package_name": "com.chmap.kloop.confchmap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56202072372-j18formf49lckojn1ftgtq1q6e7ams93.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLttlibVNb-sTVCRY84wqjgzK3MUPQVTk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

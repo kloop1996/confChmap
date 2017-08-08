@@ -1,9 +1,11 @@
 package com.chmap.kloop.confchmap.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by kloop on 15.12.2015.
  */
-public class Polution {
+public class Polution implements Serializable {
     private int type;
     private int year;
     private PolutionLevel level;

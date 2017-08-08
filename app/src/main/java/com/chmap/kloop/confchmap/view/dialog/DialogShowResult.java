@@ -36,7 +36,7 @@ public class DialogShowResult extends DialogFragment {
     String[] phonesHTC = new String[] {"Sensation", "Desire", "Wildfire", "Hero"};
     String[] phonesSams = new String[] {"Galaxy S II", "Galaxy Nexus", "Wave"};
     String[] phonesLG = new String[] {"Optimus", "Optimus Link", "Optimus Black", "Optimus One"};
-    static String[] permActions = new String[] {"Сбор грибов-аккумуляторов и сильно накапливающих радиоцезий грибов", "Сбор средне- и слабонакапливающих радиоцезий грибов", "Заготовка лесных ягод и плодов", "Ведение пчеловодства","Заготовка лекарственного сырья","Заготовка технического сырья","Выпас откормочного и рабочего скота и заготовка сена для него","Выпас молочного скота и заготовка сена для него","Заготовка хвойной лапки и веточного корма","Охота и рыбная ловля","Заготовка мха","Заготовка новогодних елок","Заготовка березового сока","Запрещена любая хоз. деятельность"};
+    static String[] permActions = new String[] {};
     // коллекция для групп
     ArrayList<Map<String, String>> groupData;
 

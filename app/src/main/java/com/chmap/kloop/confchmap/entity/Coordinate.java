@@ -1,9 +1,11 @@
 package com.chmap.kloop.confchmap.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by kloop on 15.12.2015.
  */
-public class Coordinate {
+public class Coordinate implements Serializable {
 
     private double longitude;
     private double latitude;

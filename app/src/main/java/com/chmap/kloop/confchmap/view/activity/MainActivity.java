@@ -3,6 +3,7 @@ package com.chmap.kloop.confchmap.view.activity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,35 +12,39 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.chmap.kloop.confchmap.Constants;
 import com.chmap.kloop.confchmap.OnNavigationDrawerListener;
 import com.chmap.kloop.confchmap.R;
+import com.chmap.kloop.confchmap.dao.exception.DaoException;
+import com.chmap.kloop.confchmap.dao.factory.DaoFactory;
+import com.chmap.kloop.confchmap.entity.City;
+import com.chmap.kloop.confchmap.entity.District;
+import com.chmap.kloop.confchmap.entity.Locale;
+import com.chmap.kloop.confchmap.entity.PolutionLevel;
+import com.chmap.kloop.confchmap.service.exception.ServiceException;
+import com.chmap.kloop.confchmap.service.impl.CoordinateService;
 import com.chmap.kloop.confchmap.view.fragment.FragmentGpsSearch;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements OnNavigationDrawerListener {
 
 
     private final static String GPS_FRAGMENT = "gps_fragment";
-    public static Activity activity;
-    public static FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
     private Drawer mDrawer;
-
-    public static Activity getInstance() {
-        return activity;
-    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        activity = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,19 +64,21 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
                 .withActionBarDrawerToggleAnimated(true)
 
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_search_base_title).withIcon(R.drawable.ic_format_list_bulleted_type).withDescription(R.string.drawer_item_search_base_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_search_gps_title).withIcon(R.drawable.ic_crosshairs_gps).withDescription(R.string.drawer_item_search_gps_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_search_base_title).withIcon(R.drawable.ic_format_list_bulleted_type).withDescription(R.string.drawer_item_search_base_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color).withTag(Constants.BASE_SELECT_ACTIVITY),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_search_gps_title).withIcon(R.drawable.ic_crosshairs_gps).withDescription(R.string.drawer_item_search_gps_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color).withTag(Constants.MANUAL_ENTRY_ACTIVITY),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_search_coordinates_title).withIcon(R.drawable.ic_map_marker_circle).withDescription(R.string.drawer_item_search_coordinates_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color).withTag(Constants.MANUAL_ENTRY_ACTIVITY),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_help_title).withIcon(R.drawable.ic_help_circle_outline).withDescription(R.string.drawer_item_help_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color)
+                        new PrimaryDrawerItem().withName(R.string.map_message).withIcon(R.drawable.ic_google_maps).withDescription(R.string.message_internet_connect).withTag(Constants.MAP_ACTIVITY).withDescriptionTextColorRes(R.color.description_item_text_color),
+                        new PrimaryDrawerItem().withName(R.string.lghp_message).withIcon(R.drawable.ic_google_maps).withDescription(R.string.message_internet_connect).withTag(Constants.LGHP_ACTIVITY).withDescriptionTextColorRes(R.color.description_item_text_color),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_help_title).withIcon(R.drawable.ic_help_circle_outline).withDescription(R.string.drawer_item_help_subtitle).withDescriptionTextColorRes(R.color.description_item_text_color).withTag(Constants.MANUAL_ENTRY_ACTIVITY)
                 ).withSavedInstance(savedInstanceState).withOnDrawerListener(new Drawer.OnDrawerListener() {
             @Override
             public void onDrawerOpened(View view) {
-                ((OnNavigationDrawerListener) MainActivity.getInstance()).onDrawerOpen();
+                MainActivity.this.onDrawerOpen();
             }
 
             @Override
             public void onDrawerClosed(View view) {
-                ((OnNavigationDrawerListener) MainActivity.getInstance()).onDrawerClose();
+                MainActivity.this.onDrawerClose();
             }
 
             @Override
@@ -98,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
             tx.addToBackStack(null);
             tx.commit();
             fragmentManager = getFragmentManager();
+
+
         }
 
 
@@ -130,6 +139,15 @@ public class MainActivity extends AppCompatActivity implements OnNavigationDrawe
         switch (tag) {
             case Constants.MANUAL_ENTRY_ACTIVITY:
                 startActivity(new Intent(this, ManualEntryActivity.class));
+                break;
+            case Constants.BASE_SELECT_ACTIVITY:
+                startActivity(new Intent(this, BaseSelectActivity.class));
+                break;
+            case Constants.MAP_ACTIVITY:
+                startActivity(new Intent(this,MapActivity.class));
+                break;
+            case Constants.LGHP_ACTIVITY:
+                startActivity(new Intent(this,LghpActivity.class));
                 break;
         }
     }

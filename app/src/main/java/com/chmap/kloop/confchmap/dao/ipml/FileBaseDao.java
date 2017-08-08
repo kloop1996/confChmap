@@ -9,6 +9,11 @@ import com.chmap.kloop.confchmap.entity.Coordinate;
 import com.chmap.kloop.confchmap.dao.IBaseDao;
 import com.chmap.kloop.confchmap.dao.database.DataBaseRepository;
 import com.chmap.kloop.confchmap.dao.exception.DaoException;
+import com.chmap.kloop.confchmap.entity.District;
+import com.chmap.kloop.confchmap.entity.Lghp;
+import com.chmap.kloop.confchmap.entity.LghpCutting;
+import com.chmap.kloop.confchmap.entity.Locale;
+import com.chmap.kloop.confchmap.entity.LocalePreview;
 import com.chmap.kloop.confchmap.entity.NodeTableLocale;
 import com.chmap.kloop.confchmap.entity.NodeTableMaps;
 import com.chmap.kloop.confchmap.entity.PolutionLevel;
@@ -53,7 +58,7 @@ public class FileBaseDao implements IBaseDao {
             ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
             dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
             cursor = dbOfCordinates.query("cities", new String[]{
-                    "name", "lat", "long", "idOfDistrict"}, "(" + Double.toString(dlat) + " < lat) AND (" + Double.toString(ulat) + " > lat) AND (" + Double.toString(llong) + " < long) AND (" + Double.toString(rlong) + " > long)", null, null, null, null);
+                    "name", "lat", "long", "idOfDistrict","idOfVilllageSoviet"}, "(" + Double.toString(dlat) + " < lat) AND (" + Double.toString(ulat) + " > lat) AND (" + Double.toString(llong) + " < long) AND (" + Double.toString(rlong) + " > long)", null, null, null, null);
 
             cursor.moveToFirst();
 
@@ -68,6 +73,7 @@ public class FileBaseDao implements IBaseDao {
 
                     city.setIdDistrtict(cursor.getInt(3));
 
+                    city.setIdOfVillageSoviet(cursor.getInt(4));
                     city.setCoordinate(currentCordinate);
 
                     result.add(city);
@@ -85,40 +91,27 @@ public class FileBaseDao implements IBaseDao {
         return result;
     }
 
-    @Override
-    public City getNearCity(Coordinate coordinate) throws DaoException {
-        List<City> cities = (getCitiesByCoordinate(coordinate));
-        Collections.sort((getCitiesByCoordinate(coordinate)), new SortCityByDistance());
-
-        if (cities.size() == 0)
-            return null;
-
-        return cities.get(0);
-    }
 
     @Override
-    public String getApproximateDistrict(Coordinate coordinate) throws DaoException {
-
-        if (getNearCity(coordinate) == null)
-            return null;
+    public City getCityById(int id) throws DaoException {
+        City city =new City();
 
         SQLiteDatabase dbOfCordinates = null;
         Cursor cursor = null;
-        String result = null;
 
-
-        int idDistrict = getNearCity(coordinate).getIdDistrtict();
-
-        ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
-        dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
-        cursor = dbOfCordinates.query("districts", new String[]{
-                "name"}, "_id = " + idDistrict, null, null, null, null);
-
-        cursor.moveToFirst();
         try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("cities", new String[]{"_id",
+                    "name","idOfDistrict","lat","long"},"_id = "+id, null, null, null, null);
+
+            cursor.moveToFirst();
+
             if (!cursor.isAfterLast()) {
                 do {
-                    result = cursor.getString(0);
+                    city.setName(cursor.getString(1));
+                    city.setIdDistrtict(cursor.getInt(2));
+                    city.setCoordinate(new Coordinate(cursor.getDouble(3),cursor.getDouble(4)));
                 } while (cursor.moveToNext());
             }
 
@@ -131,9 +124,111 @@ public class FileBaseDao implements IBaseDao {
         }
 
 
-        return result;
-
+        return city;
     }
+
+    @Override
+    public LocalePreview getCountryLocalePreview(int id) throws DaoException{
+        LocalePreview localePreview = null;
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("countries", new String[]{"_id",
+                    "name"},"_id = "+id, null, null, null, null);
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+
+                    localePreview = new LocalePreview(cursor.getInt(0),cursor.getString(1));
+
+
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+        return localePreview;
+    }
+
+    @Override
+    public LocalePreview getLocaleLocalePreview(int id) throws DaoException{
+        LocalePreview localePreview = null;
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("locales", new String[]{"_id",
+                    "name"},"_id = "+id, null, null, null, null);
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+
+                    localePreview = new LocalePreview(cursor.getInt(0),cursor.getString(1));
+
+
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+        return localePreview;
+    }
+
+    @Override
+    public LocalePreview getDistrictLocalePreview(int id) throws DaoException {
+        LocalePreview localePreview = null;
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("districts", new String[]{"_id",
+                    "name"},"_id = "+id, null, null, null, null);
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+
+                    localePreview = new LocalePreview(cursor.getInt(0),cursor.getString(1));
+
+
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+        return localePreview;
+    }
+
 
     public ArrayList<NodeTableLocale> getNodesFromLocaleTable() throws DaoException {
         ArrayList<NodeTableLocale> result = new ArrayList<NodeTableLocale>();
@@ -247,6 +342,280 @@ public class FileBaseDao implements IBaseDao {
         }
 
         return polutionLevel;
+    }
+
+    @Override
+    public ArrayList<LocalePreview> getLocalesByCountry(int id) throws DaoException {
+
+        ArrayList<LocalePreview> result = new ArrayList<LocalePreview>();
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("locales", new String[]{"_id",
+                    "name","localesForChoice"},"idOfCountry = "+id, null, null, null, null);
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+
+                    LocalePreview localePreview = new LocalePreview(cursor.getInt(0),cursor.getString(1));
+                    localePreview.setCountLocalesForChoice(cursor.getInt(2));
+                    result.add(localePreview);
+
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+        return result;
+    }
+
+
+
+    @Override
+    public ArrayList<LocalePreview> getDistrictsByLocale(int id) throws DaoException {
+        ArrayList<LocalePreview> result = new ArrayList<LocalePreview>();
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("districts", new String[]{"_id",
+                    "name","countForChoice"},"idOfLocale = "+id, null, null, null, null);
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+                    LocalePreview localePreview = new LocalePreview(cursor.getInt(0),cursor.getString(1));
+                    localePreview.setCountLocalesForChoice(cursor.getInt(2));
+                    result.add(localePreview);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+        return result;
+    }
+
+    @Override
+    public ArrayList<LocalePreview> getCitiesByDistrict(int id) throws DaoException {
+        ArrayList<LocalePreview> result = new ArrayList<LocalePreview>();
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("cities", new String[]{"_id",
+                    "name"},"idOfDistrict = "+id, null, null, null, "name");
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+                    LocalePreview localePreview = new LocalePreview(cursor.getInt(0),cursor.getString(1));
+                    result.add(localePreview);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+        return result;
+    }
+
+    @Override
+    public ArrayList<String> getRecomendations(PolutionLevel polutionLevel) throws DaoException {
+        ArrayList<String> result = new ArrayList<String>();
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("recommend", new String[]{
+                    "name"},"max_level >= "+polutionLevel.getEndValue(), null, null, null, "name");
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+                    result.add(cursor.getString(0));
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+
+        }
+        return result;
+    }
+
+    @Override
+    public ArrayList<Lghp> getLghp() throws DaoException {
+        ArrayList<Lghp> result = new ArrayList<Lghp>();
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("lghp", new String[]{
+                    "_id","name","latitude","longitude","idOfDistrict"},null, null, null, null, "_id");
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+                    Lghp lghp = new Lghp();
+
+                    lghp.setId(cursor.getInt(0));
+                    lghp.setName(cursor.getString(1));
+                    lghp.setCoordinate(new Coordinate(cursor.getDouble(2),cursor.getDouble(3)));
+                    lghp.setIdOfDistrict(cursor.getInt(4));
+
+
+                    result.add(lghp);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+
+        }
+
+
+        return result;
+    }
+
+    @Override
+    public String getDistrictById(int id) throws DaoException {
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+        String result = null;
+
+        ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+        dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+        cursor = dbOfCordinates.query("districts", new String[]{
+                "name"}, "_id = " + id, null, null, null, null);
+
+        cursor.moveToFirst();
+        try {
+            if (!cursor.isAfterLast()) {
+                do {
+                    result = cursor.getString(0);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+
+        return result;
+    }
+
+    @Override
+    public List<LghpCutting> getLghpCutting(int id) throws DaoException {
+        ArrayList<LghpCutting> result = new ArrayList<LghpCutting>();
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+
+        try {
+            ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+            dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+            cursor = dbOfCordinates.query("lghp_cutting", new String[]{"_id",
+                    "name","soil","locality_description","landscape_description","date_launch"},"idOfLghp = "+id, null, null, null, "_id");
+
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                do {
+
+                    LghpCutting lghpCutting = new LghpCutting();
+                    lghpCutting.setId(cursor.getInt(0));
+                    lghpCutting.setName(cursor.getString(1));
+                    lghpCutting.setLocalityDescription(cursor.getString(2));
+                    lghpCutting.setLandscapeDescription(cursor.getString(3));
+                    lghpCutting.setDateLaunch(cursor.getString(4));
+
+                    result.add(lghpCutting);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+        return result;
+    }
+
+    @Override
+    public String getVillageSovietById(int id) throws DaoException {
+        SQLiteDatabase dbOfCordinates = null;
+        Cursor cursor = null;
+        String result = null;
+
+        ExternalDbOpenHelper dbOpenHelper = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES);
+        dbOfCordinates = DataBaseRepository.getDbByTag(DataBaseRepository.CORDINATES).openDataBase();
+        cursor = dbOfCordinates.query("village_soviets", new String[]{
+                "name"}, "_id = " + id, null, null, null, null);
+
+        cursor.moveToFirst();
+        try {
+            if (!cursor.isAfterLast()) {
+                do {
+                    result = cursor.getString(0);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception ex) {
+            throw new DaoException("Error Access to Database", ex);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+
+        }
+
+
+        return result;
     }
 
 }

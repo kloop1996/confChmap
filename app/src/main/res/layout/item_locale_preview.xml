@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.chmap.kloop.confchmap.viewmodel.ItemLocalePreviewViewModel" />
+
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+        android:onClick="@{viewModel.onClick}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="25dp"
+        android:paddingTop="25dp"
+        android:background="@color/md_white_1000"
+        android:orientation="vertical">
+
+        <TextView
+            android:text='@{viewModel.localeName}'
+            android:id="@+id/locale_name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/text_color_year"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/count_for_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
+            android:text="@{@string/message_count_for_choice(viewModel.countForChoice)}"
+            android:textColor="@color/text_color_polution"
+            android:textSize="16sp"
+            android:visibility="@{viewModel.countForChoice == 0 ? View.GONE : View.VISIBLE }"/>
+
+
+    </LinearLayout>
+</layout>

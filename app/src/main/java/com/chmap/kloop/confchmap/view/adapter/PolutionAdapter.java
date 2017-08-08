@@ -22,7 +22,8 @@ public class PolutionAdapter extends RecyclerView.Adapter<PolutionAdapter.Poluti
     private List<Polution> polutions;
 
     public PolutionAdapter(){this.polutions = Collections.emptyList();}
-    public void setPolutions(List<Polution> polutions){this.polutions = polutions;}
+    public void setPolutions(List<Polution> polutions){this.polutions = polutions;
+    notifyDataSetChanged();}
 
     @Override
     public PolutionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,6 +60,7 @@ public class PolutionAdapter extends RecyclerView.Adapter<PolutionAdapter.Poluti
             }else{
                 binding.getViewModel().setPolution(polution);
             }
+
         }
     }
 }

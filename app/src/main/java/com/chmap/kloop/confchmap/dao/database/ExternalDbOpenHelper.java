@@ -15,10 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class ExternalDbOpenHelper extends SQLiteOpenHelper {
-
-    //Путь к папке с базами на устройстве
     public static String DB_PATH;
-    //Имя файла с базой
     public static String DB_NAME;
     public SQLiteDatabase database;
     public final Context context;
@@ -37,7 +34,7 @@ public class ExternalDbOpenHelper extends SQLiteOpenHelper {
         openDataBase();
     }
 
-    //Создаст базу, если она не создана
+
     public void createDataBase() {
         boolean dbExist = checkDataBase();
         if (!dbExist) {
@@ -52,7 +49,7 @@ public class ExternalDbOpenHelper extends SQLiteOpenHelper {
             Log.i(this.getClass().toString(), "Database already exists");
         }
     }
-    //Проверка существования базы данных
+
     private boolean checkDataBase() {
         SQLiteDatabase checkDb = null;
         try {
@@ -62,21 +59,18 @@ public class ExternalDbOpenHelper extends SQLiteOpenHelper {
         } catch (SQLException e) {
             Log.e(this.getClass().toString(), "Error while checking db");
         }
-        //Ардроид не любит утечки ресурсов, все должно закрываться
+
         if (checkDb != null) {
             checkDb.close();
         }
         return checkDb != null;
     }
-    //Метод копирования базы
+
     private void copyDataBase() throws IOException {
 
         InputStream externalDbStream = context.getAssets().open(DB_NAME);
 
-
         String outFileName = DB_PATH + DB_NAME;
-
-
         OutputStream localDbStream = new FileOutputStream(outFileName);
 
 

@@ -1,9 +1,11 @@
 package com.chmap.kloop.confchmap.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by kloop on 15.12.2015.
  */
-public class PolutionLevel {
+public class PolutionLevel implements Serializable {
     private double startValue;
     private double endValue;
 
@@ -13,8 +15,7 @@ public class PolutionLevel {
     }
 
     public PolutionLevel(){
-        this.startValue=startValue;
-        this.endValue=endValue;
+
     }
 
     public void setStartValue(double startValue){this.startValue=startValue;}

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Rect;
 
+import com.chmap.kloop.confchmap.ChmapApplication;
 import com.chmap.kloop.confchmap.view.activity.MainActivity;
 import com.chmap.kloop.confchmap.dao.IMapDao;
 import com.chmap.kloop.confchmap.dao.exception.DaoException;
@@ -31,7 +32,7 @@ public class FileMapDao implements IMapDao {
         InputStream inputStream = null;
         Bitmap bitmap = null;
         try {
-            AssetManager assetManager = MainActivity.getInstance().getAssets();
+            AssetManager assetManager = ChmapApplication.getInstance().getAssets();
             inputStream = assetManager.open(tag);
             bitmap = BitmapFactory.decodeStream(inputStream);
         } catch (Exception ex) {
@@ -55,7 +56,7 @@ public class FileMapDao implements IMapDao {
         Bitmap region = null;
         BitmapRegionDecoder decoder = null;
         try {
-            AssetManager assetManager = MainActivity.getInstance().getAssets();
+            AssetManager assetManager = ChmapApplication.getInstance().getAssets();
             inputStream = assetManager.open(tag);
             decoder = BitmapRegionDecoder.newInstance(inputStream, false);
             BitmapFactory.Options options = new BitmapFactory.Options();

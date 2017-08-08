@@ -1,5 +1,6 @@
 package com.chmap.kloop.confchmap.dao.database;
 
+import com.chmap.kloop.confchmap.ChmapApplication;
 import com.chmap.kloop.confchmap.view.activity.MainActivity;
 
 /**
@@ -20,17 +21,17 @@ public class DataBaseRepository {
             {
                 case CORDINATES:
                     if (cordinates==null)
-                        cordinates=new ExternalDbOpenHelper(MainActivity.getInstance(),"cordinates.sqlite3");
+                        cordinates=new ExternalDbOpenHelper(ChmapApplication.getInstance(),"cordinates.sqlite3");
                     return  cordinates;
 
                 case INFMAP:
                     if (infmap==null)
-                        infmap=new ExternalDbOpenHelper(MainActivity.getInstance(),"infmap.sqlite3");
+                        infmap=new ExternalDbOpenHelper(ChmapApplication.getInstance(),"infmap.sqlite3");
                     return infmap;
 
                 case CHMAPDB:
                     if (chmapdb==null)
-                        chmapdb=new ExternalDbOpenHelper(MainActivity.getInstance(),"chmapdb.sqlite3");
+                        chmapdb=new ExternalDbOpenHelper(ChmapApplication.getInstance(),"chmapdb.sqlite3");
                     return chmapdb;
             }
 

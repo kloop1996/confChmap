@@ -5,32 +5,43 @@ package com.chmap.kloop.confchmap.entity;
  */
 public class City {
     private String name;
-    private String locale;
-    private String district;
+
     private Coordinate coordinate;
     private double distance;
     private int idDistrtict;
-    private int idLocale;
+
+    public int getIdOfVillageSoviet() {
+        return idOfVillageSoviet;
+    }
+
+    public void setIdOfVillageSoviet(int idOfVillageSoviet) {
+        this.idOfVillageSoviet = idOfVillageSoviet;
+    }
+
+    private int idOfVillageSoviet;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
+
+
 
     public void setIdDistrtict(int idDistrtict) {
         this.idDistrtict = idDistrtict;
-    }
-
-    public void setIdLocale(int idLocale) {
-        this.idLocale = idLocale;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
 
-    public void setDistrict(String district) {
-        this.district = district;
-    }
 
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
@@ -44,13 +55,6 @@ public class City {
         return name;
     }
 
-    public String getLocale() {
-        return locale;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
 
     public Coordinate getCoordinate() {
         return coordinate;
@@ -62,5 +66,4 @@ public class City {
 
     public int getIdDistrtict(){return idDistrtict;}
 
-    public int getIdLocale(){return idLocale;}
 }

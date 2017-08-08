@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.chmap.kloop.confchmap.ChmapApplication;
 import com.chmap.kloop.confchmap.entity.City;
 import com.chmap.kloop.confchmap.entity.Coordinate;
 import com.chmap.kloop.confchmap.entity.Polution;
@@ -19,6 +20,7 @@ import com.chmap.kloop.confchmap.view.activity.MainActivity;
 import com.chmap.kloop.confchmap.view.activity.ManualEntryActivity;
 import com.chmap.kloop.confchmap.view.activity.ResultActivity;
 import com.chmap.kloop.confchmap.view.dialog.DialogShowResult;
+import com.chmap.kloop.confchmap.viewmodel.ResultViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,8 +58,8 @@ public class BackgroundDefinePolution extends AsyncTask<Coordinate, Void, Void> 
             polutions = PolutionService.getAllPolutionByCordinate(params[0]);
             Collections.sort(polutions,new SortPolutionByYear());
 
-            nearCity = CoordinateService.getNearCities(params[0]);
-            Collections.sort(nearCity, new SortCityByDistance());
+            //nearCity = CoordinateService.getNearCities(params[0]);
+            //Collections.sort(nearCity, new SortCityByDistance());
         } catch (ServiceException e) {
             error=true;
             currentPosition=null;
@@ -77,13 +79,9 @@ public class BackgroundDefinePolution extends AsyncTask<Coordinate, Void, Void> 
         super.onPostExecute(result);
 
         if (error||polutions.size()==0) {
-            Toast.makeText(MainActivity.getInstance(), "Ошибка определения загрязнения", Toast.LENGTH_LONG).show();
+           Toast.makeText(ChmapApplication.getInstance(), "Ошибка определения загрязнения", Toast.LENGTH_LONG).show();
         } else {
-//            FragmentManager manager = MainActivity.getInstance().getFragmentManager();
-//            DialogShowResult dlgResult = new DialogShowResult();
-//            dlgResult.show(manager, "fragment_edit_name");
-                Intent intent = new Intent(context,ResultActivity.class);
-                context.startActivity(intent);
+            ((ResultViewModel.DataListener)context).onPolutionChanged(polutions);
         }
     }
 }

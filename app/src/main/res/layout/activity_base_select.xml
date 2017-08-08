@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.chmap.kloop.confchmap.viewmodel.BaseSelectViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:gravity="center">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+
+            />
+
+
+        <FrameLayout
+            android:id="@+id/drawer_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
+        <FrameLayout
+            android:background="@color/colorPrimary"
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:background="@color/colorPrimary">
+
+                <TextView
+                    android:id="@+id/current_location_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@{@string/message_current_location(viewModel.currentLocationMessage)}"
+                    android:textColor="@color/md_white_1000"
+
+                    android:textSize="34sp" />
+
+                <TextView
+                    android:id="@+id/select_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/current_location_text"
+                    android:layout_marginLeft="15dp"
+                    android:text="@{@string/message_select_location(viewModel.locationSelectMessage)}"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="34sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/select_text"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/message_click_gps_use"
+                    android:textColor="@color/md_white_1000"
+
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:background="@color/md_white_1000">
+
+                <ProgressBar
+                    android:id="@+id/progress_work"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    app:visibility="@{viewModel.progressVisibility}" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/location_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/md_white_1000"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical"
+                    app:visibility="@{viewModel.recyclerViewVisibility}" />
+            </RelativeLayout>
+        </LinearLayout>
+        </FrameLayout>
+        </FrameLayout>
+    </RelativeLayout>
+
+</layout>

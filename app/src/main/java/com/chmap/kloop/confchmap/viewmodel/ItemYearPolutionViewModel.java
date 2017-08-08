@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 
+import com.chmap.kloop.confchmap.R;
 import com.chmap.kloop.confchmap.entity.Polution;
 
 /**
@@ -13,6 +14,22 @@ public class ItemYearPolutionViewModel implements ViewModel {
 
     private Context context;
     private Polution polution;
+
+    private ObservableField<String> poltuionLevelField;
+    private ObservableField<String> yearField;
+
+    private ObservableInt recyclerViewVisibility;
+    private ObservableInt progressVisibility;
+
+    public ObservableField<String> getPoltuionLevelField() {
+        poltuionLevelField.set(getPolutionLevel());
+        return poltuionLevelField;
+    }
+
+    public ObservableField<String> getYearField() {
+        yearField.set(getPolutionYear());
+        return yearField;
+    }
 
     public String getPolutionYear(){return String.valueOf(polution.getYear());}
 
@@ -51,18 +68,13 @@ public class ItemYearPolutionViewModel implements ViewModel {
         this.progressVisibility = progressVisibility;
     }
 
-    private ObservableInt recyclerViewVisibility;
-    private ObservableInt progressVisibility;
-
     public ItemYearPolutionViewModel(Context context,Polution polution){
         this.context = context;
         this.polution = polution;
 
-    }
+        yearField = new ObservableField<String>();
+        poltuionLevelField = new ObservableField<String>();
 
-    @Override
-    public void destroy() {
-        context = null;
     }
 
     public Polution getPolution() {
@@ -71,5 +83,14 @@ public class ItemYearPolutionViewModel implements ViewModel {
 
     public void setPolution(Polution polution) {
         this.polution = polution;
+
+        poltuionLevelField.notifyChange();
+        yearField.notifyChange();
     }
+
+    @Override
+    public void destroy() {
+        context = null;
+    }
+
 }

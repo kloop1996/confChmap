@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chmap.kloop.confchmap" >
+    package="com.chmap.kloop.confchmap">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,13 +11,14 @@
     <application
         android:name=".ChmapApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic96"
+        android:icon="@mipmap/ch_icon192x192"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAjsrsqr8AvVOP2EOYvaFwkAIU06ny871I" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC7q9ZWwf3ICjC1g6yALfvGeIuR6_oPvfY" />
+
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -25,27 +27,51 @@
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/app_name"
-            >
+            android:screenOrientation="portrait">
+
+        </activity>
+
+
+        <activity
+            android:name=".view.activity.ManualEntryActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-
-        <activity
-            android:name=".view.activity.ManualEntryActivity"
-            android:label="@string/app_name"
-            >
-
-        </activity>
-
         <activity
             android:name=".view.activity.ResultActivity"
-            android:label="@string/app_name"
-            >
+            android:screenOrientation="portrait">
 
         </activity>
+
+        <activity
+            android:name=".view.activity.BaseSelectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity android:name=".view.activity.AdditionallyInfoActivity"
+            android:parentActivityName=".view.activity.ResultActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".view.activity.MapActivity"
+            android:parentActivityName=".view.activity.ResultActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".view.activity.LghpActivity"
+            android:parentActivityName=".view.activity.LghpActivity"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name=".view.activity.LghpInfoActivity"
+            android:screenOrientation="portrait"
+            />
 
 
     </application>

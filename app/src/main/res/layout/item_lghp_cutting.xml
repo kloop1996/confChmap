@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.chmap.kloop.confchmap.viewmodel.ItemLghpCuttingViewModel" />
+
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="25dp"
+        android:paddingTop="25dp"
+        android:background="@color/md_white_1000"
+        android:orientation="vertical">
+
+        <TextView
+            android:text='@{viewModel.lghpCutting.name}'
+            android:id="@+id/lghpcutting_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/text_color_year"
+            android:textSize="17sp" />
+
+        <TextView
+            android:text='@{viewModel.lghpCutting.localityDescription}'
+            android:id="@+id/locality_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/text_color_year"
+            android:textSize="17sp" />
+        <TextView
+            android:text='@{viewModel.lghpCutting.landscapeDescription}'
+            android:id="@+id/landscape_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/text_color_year"
+            android:textSize="17sp" />
+        <TextView
+            android:text='@{viewModel.lghpCutting.dateLaunch}'
+            android:id="@+id/date_launch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/text_color_year"
+            android:textSize="17sp" />
+
+
+    </LinearLayout>
+</layout>
